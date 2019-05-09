@@ -10,10 +10,7 @@
 
     <b-list-group>
     
-            <b-list-group-item v-for="(answer,index) in answers"  :key="index" @click.prevent="selectAnswer(index)" :class="[!answered && selectedIndex===index ? 'selected': 
-            answered && correctIndex===index ? 'correct ' : 
-            answered && selectedIndex===index && correctIndex!==index ? 'incorrect' : ''
-            ]">{{answer}}</b-list-group-item>
+            <b-list-group-item v-for="(answer,index) in answers"  :key="index" @click.prevent="selectAnswer(index)"  :class="[answerClass(index)]">{{answer}}</b-list-group-item>
     </b-list-group>
     <b-button variant="primary" @click="submitAnswer" :disabled="selectedIndex===null || answered===true" class="mr-2" href="#">Submit</b-button>
     <b-button variant="success" @click="next" href="#">Next </b-button>
@@ -45,7 +42,17 @@ export default {
       selectAnswer(index){
       this.selectedIndex=index
       },
-      
+      answerClass(index){
+      let answerClass=''
+      if(!this.answered && this.selectedIndex===index){
+        answerClass='selected'
+      }else if(this.answered && this.correctIndex===index){
+        answerClass='correct'
+      }else if(this.answered && this.selectedIndex===index && this.correctIndex!==index){
+        answerClass='incorrect'
+      }
+      return answerClass
+      },
       submitAnswer(){
         this.correctIndex=this.answers.indexOf(this.currentQuestion.correct_answer)
         let isCorrect=false;

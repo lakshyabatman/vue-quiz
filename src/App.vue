@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div v-if="index==questions.length">
+      <p style="color:red">Congratulations, you have finished the quiz</p>
+    </div>
     <Header
     :numCorrect="numCorrect"
     :total="total"
@@ -15,20 +18,22 @@
       />
       </b-col>
    
-  </b-row>
-</b-container>
+      </b-row>
+    </b-container>
+  <Footer/>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import QuestionBox from './components/QuestionBox.vue'
-
+import Footer from './components/Footer.vue'
 export default {
   name: 'app',
   components: {
     Header,
-    QuestionBox
+    QuestionBox,
+    Footer
   },
   data(){
     return{
@@ -40,6 +45,9 @@ export default {
   },
   methods:{
     next: function(){
+      if(this.index<this.questions.length){
+      this.total++
+      }
       this.index++
     },
     increment(isCorrect){
